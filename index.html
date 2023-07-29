@@ -1,0 +1,26 @@
+<div class="input">
+    <input type="file" id="file-input" multiple accept=".m4a">
+</div>
+<script>
+    const fileInput = document.getElementById('file-input');
+    fileInput.addEventListener('input', (e) => {
+        const files = e.target.files;
+        [...files].forEach(element => {
+            try {
+                const newFileName = `${element.name.slice(0, -4)}.mp3`;
+                const file = new File([element], newFileName, { type: "audio/mp3" });
+                // Do something with the 'file' object
+                console.log(file);
+                let url = URL.createObjectURL(file);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = newFileName;
+                let audio = new Audio(url);
+                audio.play();
+                a.click();
+            } catch (error) {
+                console.error("Error creating File object:", error);
+            }
+        });
+    });
+</script>
